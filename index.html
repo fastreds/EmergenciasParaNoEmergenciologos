@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals & Medical Blue -->
-    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con una estructura de panel de control (dashboard) interactivo. El usuario es recibido con una introducción a los principios básicos de la cadena de supervivencia. Luego, se presenta una cuadrícula de "tarjetas" de acceso rápido, cada una representando una patología aguda. Al hacer clic en una tarjeta, se muestra dinámicamente una sección detallada debajo, sin recargar la página. Esta sección utiliza pestañas interactivas (Síntomas, Acción, etc.) para segmentar la información y evitar la sobrecarga cognitiva. Esta estructura se eligió porque es más intuitiva y útil como herramienta de referencia rápida que un formato de presentación lineal, permitiendo a los profesionales de la salud acceder directamente a la información que necesitan en el momento. El flujo de usuario es: 1. Entender el contexto general (Intro). 2. Seleccionar una patología de interés. 3. Explorar la información detallada a través de pestañas. 4. Consultar las referencias si es necesario. -->
-    <!-- Visualization & Content Choices: Report Info -> Ictus. Goal -> Facilitar la memorización del acrónimo de detección. Viz/Presentation Method -> Diagrama visual con HTML/CSS (Flexbox) para representar el acrónimo FAST. Interaction -> Ninguna, es un elemento infográfico estático para claridad y rápida asimilación. Justification -> Un gráfico de Chart.js sería inapropiado. Un diagrama visual basado en HTML es más claro, ligero y efectivo para este tipo de información mnemotécnica. Report Info -> Cadena de Supervivencia. Goal -> Ilustrar el proceso secuencial. Viz/Presentation Method -> Diagrama de flujo horizontal creado con divs estilizados y Tailwind. Interaction -> Hover sutil para resaltar cada paso. Justification -> Representa visualmente un proceso de manera más eficaz que el texto puro, guiando al usuario a través de la secuencia de acciones críticas. No se utilizaron gráficos de datos ya que el contenido es cualitativo y procedimental. -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con una estructura de panel de control (dashboard) interactivo. El usuario es recibido con una introducción a los principios básicos de la cadena de supervivencia. Luego, se presenta una cuadrícula de "tarjetas" de acceso rápido, cada una representando una patología aguda. Al hacer clic en una tarjeta, se muestra dinámicamente una sección detallada debajo, sin recargar la página. Esta sección utiliza pestañas interactivas (Definición, Síntomas, Acción, etc.) para segmentar la información y evitar la sobrecarga cognitiva. Esta estructura se eligió porque es más intuitiva y útil como herramienta de referencia rápida que un formato de presentación lineal, permitiendo a los profesionales de la salud acceder directamente a la información que necesitan en el momento. El flujo de usuario es: 1. Entender el contexto general (Intro). 2. Seleccionar una patología de interés. 3. Explorar la información detallada a través de pestañas. 4. Consultar las referencias si es necesario. La navegación por teclado (flechas y 'M') mejora la accesibilidad y rapidez de uso. -->
+    <!-- Visualization & Content Choices: Report Info -> Ictus. Goal -> Facilitar la memorización del acrónimo de detección. Viz/Presentation Method -> Diagrama visual con HTML/CSS (Flexbox) para representar el acrónimo CAMALEON. Interaction -> Ninguna, es un elemento infográfico estático para claridad y rápida asimilación. Justification -> Un gráfico de Chart.js sería inapropiado. Un diagrama visual basado en HTML es más claro, ligero y efectivo para este tipo de información mnemotécnica. Report Info -> Cadena de Supervivencia. Goal -> Ilustrar el proceso secuencial. Viz/Presentation Method -> Diagrama de flujo horizontal creado con divs estilizados y Tailwind. Interaction -> Hover sutil para resaltar cada paso. Justification -> Representa visualmente un proceso de manera más eficaz que el texto puro, guiando al usuario a través de la secuencia de acciones críticas. No se utilizaron gráficos de datos ya que el contenido es cualitativo y procedimental. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -67,6 +67,12 @@
             background-color: #EFF6FF;
             border-left: 5px solid #3B82F6;
         }
+        summary {
+            list-style: none; /* Oculta el marcador por defecto */
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -78,38 +84,47 @@
         </header>
 
         <main>
-            <section id="intro" class="mb-12 p-6 card">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">El Rol Crucial del Primer Interviniente</h2>
-                <p class="text-center text-gray-700 mb-6">El reconocimiento temprano y la activación del sistema de emergencias son los eslabones más críticos en la atención de patologías tiempo-dependientes. Como profesional de la salud, tu capacidad para identificar los signos de alarma puede cambiar drásticamente el pronóstico de un paciente. Esta guía se basa en el principio fundamental: <strong class="text-blue-600">Reconocer, Activar y Responder</strong>.</p>
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold text-center mb-4">Cadena de Supervivencia (AHA)</h3>
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-center">
-                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
-                            <span class="text-2xl">📞</span> <span class="font-medium">Activación</span>
-                        </div>
-                        <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
-                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
-                            <span class="text-2xl">❤️</span> <span class="font-medium">RCP precoz</span>
-                        </div>
-                        <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
-                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
-                             <span class="text-2xl">⚡️</span> <span class="font-medium">Desfibrilación</span>
-                        </div>
-                         <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
-                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
-                            <span class="text-2xl">🚑</span> <span class="font-medium">Soporte Vital</span>
-                        </div>
-                         <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
-                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
-                           <span class="text-2xl">🏥</span> <span class="font-medium">Cuidados Post</span>
+            <section class="text-center mb-12">
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto">Esta es una herramienta interactiva diseñada para servir como una referencia rápida y accesible. Navegue por las diferentes patologías para repasar los parámetros clave, síntomas y las acciones inmediatas cruciales en una emergencia. Use las flechas del teclado para una navegación más rápida.</p>
+            </section>
+            
+            <details id="intro-details" class="mb-12 card" open>
+                <summary class="p-6 text-2xl font-bold text-gray-800 text-center cursor-pointer">
+                    El Rol Crucial del Primer Interviniente
+                    <span class="text-base font-normal text-gray-500 block mt-1">(Haz clic para expandir o colapsar)</span>
+                </summary>
+                <div class="px-6 pb-6 border-t border-gray-200">
+                    <p class="text-center text-gray-700 mb-6 pt-6">El reconocimiento temprano y la activación del sistema de emergencias son los eslabones más críticos en la atención de patologías tiempo-dependientes. Como profesional de la salud, tu capacidad para identificar los signos de alarma puede cambiar drásticamente el pronóstico de un paciente. Esta guía se basa en el principio fundamental: <strong class="text-blue-600">Reconocer, Activar y Responder</strong>.</p>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-center mb-4">Cadena de Supervivencia (AHA)</h3>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-center">
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                                <span class="text-2xl">📞</span> <span class="font-medium">Activación</span>
+                            </div>
+                            <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                                <span class="text-2xl">❤️</span> <span class="font-medium">RCP precoz</span>
+                            </div>
+                            <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                                 <span class="text-2xl">⚡️</span> <span class="font-medium">Desfibrilación</span>
+                            </div>
+                             <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                                <span class="text-2xl">🚑</span> <span class="font-medium">Soporte Vital</span>
+                            </div>
+                             <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                               <span class="text-2xl">🏥</span> <span class="font-medium">Cuidados Post</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </details>
 
             <section id="dashboard" class="mb-10">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Seleccione una Patología</h2>
-                <div id="pathology-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="pathology-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 </div>
             </section>
 
@@ -147,11 +162,75 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const pathologyData = {
+        'primeros_auxilios': {
+            title: 'Primeros Auxilios Básicos',
+            icon: '🩹',
+            tagline: 'La primera ayuda en cualquier emergencia.',
+            content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición y Principios</h4>
+                    <p class="mb-3">La asistencia inmediata y temporal que se presta a una persona que ha sufrido un accidente o una enfermedad súbita hasta la llegada de la atención médica profesional. Se basa en el principio <strong>PAS (Proteger, Alertar, Socorrer)</strong>.</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Proteger:</strong> Asegurar la escena para evitar más peligros para la víctima y el reanimador.</li>
+                        <li><strong>Alertar:</strong> Activar el sistema de emergencias médicas (SEM) proporcionando información clara.</li>
+                        <li><strong>Socorrer:</strong> Aplicar los conocimientos de primeros auxilios para estabilizar a la víctima.</li>
+                    </ul>`,
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Evaluación Inicial de la Víctima</h4>
+                     <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Seguridad de la escena:</strong> ¿Es seguro acercarse? Evaluar riesgos potenciales (tráfico, fuego, electricidad).</li>
+                        <li><strong>Estado de conciencia:</strong> Arrodillarse a la altura de los hombros de la víctima y sacudirle suavemente mientras se le pregunta en voz alta: "¿Se encuentra bien?".
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                               <li>Si responde: Dejar en la posición encontrada (si no hay peligro) e intentar averiguar qué ha pasado.</li>
+                               <li>Si no responde: Pasar al siguiente punto.</li>
+                            </ul>
+                        </li>
+                         <li><strong>Respiración:</strong> Abrir la vía aérea (maniobra frente-mentón) y comprobar si respira normalmente (Ver, Oír, Sentir) durante no más de 10 segundos.</li>
+                        <li><strong>Circulación:</strong> Buscar hemorragias externas graves que deban ser controladas de inmediato.</li>
+                    </ol>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Si la víctima NO responde y NO respira normalmente:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Llamar inmediatamente al SEM.</li>
+                                <li>Iniciar compresiones torácicas (RCP).</li>
+                                <li>Usar un DEA tan pronto como esté disponible.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Si la víctima NO responde pero SÍ respira normalmente:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Colocar en posición lateral de seguridad.</li>
+                                <li>Llamar al SEM.</li>
+                                <li>Reevaluar la respiración periódicamente.</li>
+                            </ul>
+                        </li>
+                         <li><strong>Para hemorragias graves:</strong> Aplicar presión directa y firme sobre la herida con un apósito o paño limpio.</li>
+                    </ul>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No mover a la víctima a menos que exista un peligro inminente.</li>
+                        <li>No dar nada de comer ni de beber.</li>
+                        <li>No abandonar a la víctima sola.</li>
+                        <li>No retirar objetos clavados; inmovilizarlos.</li>
+                    </ul>`
+            }
+        },
         'sca': {
             title: 'Síndrome Coronario Agudo (SCA)',
             icon: '❤️',
             tagline: 'Tiempo es músculo. Cada minuto cuenta.',
             content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Un término que engloba un espectro de condiciones caracterizadas por una isquemia miocárdica aguda (reducción del flujo sanguíneo al corazón). Incluye el infarto de miocardio (con y sin elevación del segmento ST) y la angina inestable.</p>
+                    <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>ECG:</strong> La elevación o depresión del segmento ST son signos críticos.</li>
+                        <li><strong>Biomarcadores:</strong> Las troponinas cardíacas elevadas confirman el daño miocárdico.</li>
+                        <li><strong>Saturación de O₂:</strong> La oxigenoterapia se recomienda si la saturación es &lt;94%.</li>
+                    </ul>`,
                 sintomas: `
                     <h4 class="font-semibold text-lg mb-2">Síntomas Clave</h4>
                     <ul class="list-disc list-inside space-y-2">
@@ -184,22 +263,31 @@ document.addEventListener('DOMContentLoaded', function () {
         'acv': {
             title: 'Accidente Cerebrovascular (ACV/Ictus)',
             icon: '🧠',
-            tagline: 'Tiempo es cerebro. Actúa RÁPIDO.',
+            tagline: 'Tiempo es cerebro. ¡Actúa con CAMALEON!',
             content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Una emergencia neurológica causada por la interrupción del flujo sanguíneo al cerebro (ictus isquémico) o por la ruptura de un vaso sanguíneo cerebral (ictus hemorrágico), resultando en daño neuronal.</p>
+                     <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Tiempo de inicio:</strong> Es el factor más crítico. La ventana terapéutica para trombólisis suele ser inferior a 4.5 horas.</li>
+                        <li><strong>Glucemia capilar:</strong> Fundamental para descartar hipoglucemia, que puede simular un ACV.</li>
+                        <li><strong>Escala CAMALEON:</strong> Herramienta de detección prehospitalaria adaptada para hispanohablantes.</li>
+                    </ul>`,
                 sintomas: `
-                    <h4 class="font-semibold text-lg mb-2">Detección Rápida con FAST (RÁPIDO)</h4>
+                    <h4 class="font-semibold text-lg mb-2">Detección Rápida con la nemotecnia CAMALEON</h4>
                     <div class="space-y-3 mt-4">
                         <div class="p-4 fast-item rounded-lg">
-                            <p><strong class="text-2xl text-blue-700">F (Face/Rostro):</strong> Pida a la persona que sonría. ¿Un lado del rostro está caído?</p>
+                            <p><strong class="text-2xl text-blue-700">CA (Cara):</strong> Pida a la persona que sonría. ¿La <strong class="text-blue-800">CA</strong>ra le cuelga de un lado?</p>
                         </div>
                         <div class="p-4 fast-item rounded-lg">
-                            <p><strong class="text-2xl text-blue-700">A (Arms/Brazos):</strong> Pida que levante ambos brazos. ¿Uno de ellos se desvía hacia abajo?</p>
+                            <p><strong class="text-2xl text-blue-700">MA (Mano):</strong> Pida que levante ambos brazos. ¿Una <strong class="text-blue-800">MA</strong>no está pesada o no puede levantarla?</p>
                         </div>
                         <div class="p-4 fast-item rounded-lg">
-                            <p><strong class="text-2xl text-blue-700">S (Speech/Habla):</strong> Pida que repita una frase simple. ¿Arrastra las palabras o habla de forma extraña?</p>
+                            <p><strong class="text-2xl text-blue-700">LE (Lenguaje):</strong> Pida que repita una frase. ¿Tiene la <strong class="text-blue-800">LE</strong>ngua trabada o habla extraño?</p>
                         </div>
                         <div class="p-4 fast-item rounded-lg">
-                            <p><strong class="text-2xl text-blue-700">T (Time/Tiempo):</strong> Si observa cualquiera de estos signos, llame a emergencias inmediatamente.</p>
+                            <p><strong class="text-2xl text-blue-700">ON:</strong> Si detectas uno de estos signos, ¡Ponte en acci<strong class="text-blue-800">ÓN</strong>! Llama a emergencias inmediatamente.</p>
                         </div>
                     </div>`,
                 accion: `
@@ -225,12 +313,20 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: '🍬',
             tagline: 'Una emergencia metabólica simple de resolver.',
             content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Condición metabólica caracterizada por una concentración anormalmente baja de glucosa en sangre, que priva al cerebro de su principal fuente de energía y puede causar disfunción neurológica.</p>
+                     <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Glucemia capilar < 70 mg/dL:</strong> Nivel de alerta que requiere intervención.</li>
+                        <li><strong>Glucemia capilar < 54 mg/dL:</strong> Hipoglucemia clínicamente significativa, asociada a síntomas neuroglucopénicos.</li>
+                        <li><strong>Tríada de Whipple:</strong> Diagnóstico clásico (síntomas + glucosa baja + mejoría al administrar glucosa).</li>
+                    </ul>`,
                 sintomas: `
                     <h4 class="font-semibold text-lg mb-2">Síntomas Neuroglucopénicos y Autonómicos</h4>
                     <ul class="list-disc list-inside space-y-2">
                         <li><strong>Autonómicos (alarma):</strong> Temblores, sudoración, taquicardia, ansiedad, hambre.</li>
                         <li><strong>Neuroglucopénicos (severidad):</strong> Confusión, visión borrosa, dificultad para hablar, somnolencia, convulsiones, coma.</li>
-                        <li>Nivel de glucemia capilar generalmente &lt;70 mg/dL.</li>
                     </ul>`,
                 accion: `
                     <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
@@ -264,9 +360,17 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: '🌡️',
             tagline: 'No toda tensión alta es una emergencia.',
             content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Elevación severa de la Presión Arterial (PA). Se clasifica como <strong>Emergencia Hipertensiva</strong> si hay evidencia de daño agudo a un órgano diana (cerebro, corazón, riñones), o <strong>Urgencia Hipertensiva</strong> si no la hay, aunque la PA esté muy elevada.</p>
+                     <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>PA > 180/120 mmHg:</strong> Umbral generalmente aceptado para definir una crisis hipertensiva.</li>
+                        <li><strong>Daño a órgano diana:</strong> La presencia de síntomas como dolor torácico, disnea, déficit neurológico o alteración visual convierte la situación en una emergencia.</li>
+                    </ul>`,
                 sintomas: `
                     <h4 class="font-semibold text-lg mb-2">Diferenciar Urgencia de Emergencia</h4>
-                    <p class="mb-2">La clave es la presencia de <strong>daño a órgano diana</strong>, no solo el valor de la Tensión Arterial (TA > 180/120 mmHg).</p>
+                    <p class="mb-2">La clave es la presencia de <strong>daño a órgano diana</strong>, no solo el valor de la Presión Arterial.</p>
                     <ul class="list-disc list-inside space-y-2">
                         <li><strong>Signos de EMERGENCIA (activar SEM):</strong>
                             <ul class="list-disc list-inside ml-6 mt-1">
@@ -284,7 +388,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <ol class="list-decimal list-inside space-y-2">
                         <li>Mantener la calma y tranquilizar al paciente.</li>
                         <li>Colocar al paciente en una posición cómoda, sentado o semi-sentado.</li>
-                        <li>Reevaluar la TA en 5-10 minutos.</li>
+                         <li>Consultar si tomó su medicación el día de hoy.</li>
+                        <li>Reevaluar la PA en 5-10 minutos.</li>
                         <li><strong>Si hay signos de emergencia hipertensiva, activar el SEM inmediatamente.</strong></li>
                         <li>Si es una urgencia sin síntomas graves, contactar con su médico tratante para ajuste de tratamiento.</li>
                     </ol>`,
@@ -301,6 +406,15 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: '🐝',
             tagline: 'Reacción alérgica grave y potencialmente mortal.',
             content: {
+                 definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Una reacción de hipersensibilidad sistémica, de inicio rápido y que puede causar la muerte. Es el resultado de la liberación súbita de mediadores de mastocitos y basófilos en todo el cuerpo.</p>
+                     <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Criterios diagnósticos:</strong> Inicio agudo con afectación de piel/mucosas y compromiso respiratorio y/o circulatorio.</li>
+                        <li><strong>Adrenalina (Epinefrina):</strong> Es el tratamiento de primera línea e incuestionable.</li>
+                        <li><strong>Exposición a alérgeno:</strong> La aparición de síntomas tras la exposición a un alérgeno conocido es altamente sugestiva.</li>
+                    </ul>`,
                 sintomas: `
                     <h4 class="font-semibold text-lg mb-2">Reconocimiento Rápido</h4>
                      <p class="mb-2">Afecta a múltiples sistemas, con inicio rápido tras la exposición a un alérgeno.</p>
@@ -333,6 +447,15 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: '⚡',
             tagline: 'La seguridad del paciente es la prioridad.',
             content: {
+                 definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Un evento transitorio de signos y/o síntomas debidos a una actividad neuronal anormalmente excesiva o sincrónica en el cerebro. El <strong>status epilepticus</strong> es una emergencia neurológica definida como una convulsión que dura más de 5 minutos, o convulsiones recurrentes sin recuperación completa de la conciencia entre ellas.</p>
+                     <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Duración > 5 minutos:</strong> Umbral para considerar status epilepticus y activar SEM de inmediato.</li>
+                        <li><strong>Vía aérea y respiración:</strong> Deben ser evaluadas constantemente, especialmente en la fase postictal.</li>
+                        <li><strong>Seguridad del entorno:</strong> Proteger al paciente de lesiones secundarias es la máxima prioridad durante la crisis.</li>
+                    </ul>`,
                 sintomas: `
                     <h4 class="font-semibold text-lg mb-2">Tipos y Fases</h4>
                     <ul class="list-disc list-inside space-y-2">
@@ -362,6 +485,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const grid = document.getElementById('pathology-grid');
     const contentDisplay = document.getElementById('content-display');
+    const introDetails = document.getElementById('intro-details');
     let activeCard = null;
     let currentPathologyKey = null;
     const pathologyKeys = Object.keys(pathologyData);
@@ -382,6 +506,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displayContent(key) {
         if (!key || !pathologyData[key]) return;
+        
+        if (introDetails.open) {
+            introDetails.open = false;
+        }
 
         currentPathologyKey = key;
         const pathology = pathologyData[key];
@@ -404,14 +532,16 @@ document.addEventListener('DOMContentLoaded', function () {
                  </div>
             </div>
             <div class="border-b border-gray-200 mb-6">
-                <nav class="flex space-x-4" aria-label="Tabs">
-                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600 active" data-tab="sintomas">Síntomas</button>
+                <nav class="flex flex-wrap -mb-px space-x-4" aria-label="Tabs">
+                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600 active" data-tab="definicion">Definición y Parámetros</button>
+                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600" data-tab="sintomas">${key === 'primeros_auxilios' ? 'Evaluación Inicial' : 'Síntomas'}</button>
                     <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600" data-tab="accion">Acción Inmediata</button>
                     <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600" data-tab="no_hacer">Qué NO Hacer</button>
                 </nav>
             </div>
             <div>
-                <div id="content-sintomas" class="content-section active">${pathology.content.sintomas}</div>
+                <div id="content-definicion" class="content-section active">${pathology.content.definicion}</div>
+                <div id="content-sintomas" class="content-section">${pathology.content.sintomas}</div>
                 <div id="content-accion" class="content-section">${pathology.content.accion}</div>
                 <div id="content-no_hacer" class="content-section">${pathology.content.no_hacer}</div>
             </div>
@@ -437,23 +567,49 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function navigate(direction) {
-        let currentIndex = pathologyKeys.indexOf(currentPathologyKey);
-
-        if (currentIndex === -1) {
-            currentIndex = direction === 1 ? -1 : 0;
+    function navigateTopic(direction) {
+         if (!currentPathologyKey && direction === -1) {
+            displayContent(pathologyKeys[pathologyKeys.length - 1]);
+            return;
+        }
+        
+        if (!currentPathologyKey && direction === 1) {
+            displayContent(pathologyKeys[0]);
+            return;
         }
 
+        let currentIndex = pathologyKeys.indexOf(currentPathologyKey);
         let nextIndex = currentIndex + direction;
 
         if (nextIndex >= pathologyKeys.length) {
-            nextIndex = 0; // Wrap around to the start
+            nextIndex = 0; 
         } else if (nextIndex < 0) {
-            nextIndex = pathologyKeys.length - 1; // Wrap around to the end
+            nextIndex = pathologyKeys.length - 1; 
         }
         
         displayContent(pathologyKeys[nextIndex]);
     }
+    
+    function navigateTabs(direction) {
+        if (!currentPathologyKey || contentDisplay.classList.contains('hidden')) {
+            return;
+        }
+
+        const tabButtons = Array.from(contentDisplay.querySelectorAll('.tab-button'));
+        const currentTab = contentDisplay.querySelector('.tab-button.active');
+        let currentIndex = tabButtons.indexOf(currentTab);
+        
+        let nextIndex = currentIndex + direction;
+        
+        if (nextIndex >= tabButtons.length) {
+            nextIndex = 0;
+        } else if (nextIndex < 0) {
+            nextIndex = tabButtons.length - 1;
+        }
+        
+        tabButtons[nextIndex].click();
+    }
+
 
     function goToMenu() {
         contentDisplay.classList.add('hidden');
@@ -462,17 +618,30 @@ document.addEventListener('DOMContentLoaded', function () {
             activeCard = null;
         }
         currentPathologyKey = null;
+        if (!introDetails.open) {
+            introDetails.open = true;
+        }
         const dashboard = document.getElementById('dashboard');
         dashboard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     document.addEventListener('keydown', function(event) {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            event.preventDefault();
+        }
+
         switch (event.key) {
+            case 'ArrowDown':
+                navigateTopic(1);
+                break;
+            case 'ArrowUp':
+                navigateTopic(-1);
+                break;
             case 'ArrowRight':
-                navigate(1);
+                navigateTabs(1);
                 break;
             case 'ArrowLeft':
-                navigate(-1);
+                navigateTabs(-1);
                 break;
             case 'm':
             case 'M':
