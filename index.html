@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Rápida de Detección de Emergencias Médicas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Medical Blue -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con una estructura de panel de control (dashboard) interactivo. El usuario es recibido con una introducción a los principios básicos de la cadena de supervivencia. Luego, se presenta una cuadrícula de "tarjetas" de acceso rápido, cada una representando una patología aguda. Al hacer clic en una tarjeta, se muestra dinámicamente una sección detallada debajo, sin recargar la página. Esta sección utiliza pestañas interactivas (Síntomas, Acción, etc.) para segmentar la información y evitar la sobrecarga cognitiva. Esta estructura se eligió porque es más intuitiva y útil como herramienta de referencia rápida que un formato de presentación lineal, permitiendo a los profesionales de la salud acceder directamente a la información que necesitan en el momento. El flujo de usuario es: 1. Entender el contexto general (Intro). 2. Seleccionar una patología de interés. 3. Explorar la información detallada a través de pestañas. 4. Consultar las referencias si es necesario. -->
+    <!-- Visualization & Content Choices: Report Info -> Ictus. Goal -> Facilitar la memorización del acrónimo de detección. Viz/Presentation Method -> Diagrama visual con HTML/CSS (Flexbox) para representar el acrónimo FAST. Interaction -> Ninguna, es un elemento infográfico estático para claridad y rápida asimilación. Justification -> Un gráfico de Chart.js sería inapropiado. Un diagrama visual basado en HTML es más claro, ligero y efectivo para este tipo de información mnemotécnica. Report Info -> Cadena de Supervivencia. Goal -> Ilustrar el proceso secuencial. Viz/Presentation Method -> Diagrama de flujo horizontal creado con divs estilizados y Tailwind. Interaction -> Hover sutil para resaltar cada paso. Justification -> Representa visualmente un proceso de manera más eficaz que el texto puro, guiando al usuario a través de la secuencia de acciones críticas. No se utilizaron gráficos de datos ya que el contenido es cualitativo y procedimental. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #333;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border-color: #3B82F6;
+        }
+        .card.active {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+            font-weight: 600;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .fast-item {
+            background-color: #EFF6FF;
+            border-left: 5px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-2">Guía Rápida de Detección de Emergencias</h1>
+            <p class="text-lg text-gray-600">Para profesionales de la salud en entornos no hospitalarios</p>
+        </header>
+
+        <main>
+            <section id="intro" class="mb-12 p-6 card">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">El Rol Crucial del Primer Interviniente</h2>
+                <p class="text-center text-gray-700 mb-6">El reconocimiento temprano y la activación del sistema de emergencias son los eslabones más críticos en la atención de patologías tiempo-dependientes. Como profesional de la salud, tu capacidad para identificar los signos de alarma puede cambiar drásticamente el pronóstico de un paciente. Esta guía se basa en el principio fundamental: <strong class="text-blue-600">Reconocer, Activar y Responder</strong>.</p>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-center mb-4">Cadena de Supervivencia (AHA)</h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-center">
+                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                            <span class="text-2xl">📞</span> <span class="font-medium">Activación</span>
+                        </div>
+                        <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                            <span class="text-2xl">❤️</span> <span class="font-medium">RCP precoz</span>
+                        </div>
+                        <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                             <span class="text-2xl">⚡️</span> <span class="font-medium">Desfibrilación</span>
+                        </div>
+                         <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                            <span class="text-2xl">🚑</span> <span class="font-medium">Soporte Vital</span>
+                        </div>
+                         <div class="text-blue-500 font-bold text-2xl hidden md:block">→</div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 w-full md:w-auto">
+                           <span class="text-2xl">🏥</span> <span class="font-medium">Cuidados Post</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard" class="mb-10">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Seleccione una Patología</h2>
+                <div id="pathology-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </section>
+
+            <section id="content-display" class="bg-white rounded-xl shadow-lg p-6 md:p-8 min-h-[300px] hidden"></section>
+
+            <section id="universal-signs" class="mt-12 card p-6 bg-blue-50 border-blue-200">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4 text-center">Signos de Alarma Universales</h2>
+                 <p class="text-center text-blue-700 mb-6">Independientemente de la causa subyacente, la presencia de cualquiera de estos signos justifica una activación inmediata del sistema de emergencias médicas.</p>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                    <li class="p-3 bg-white rounded-lg font-semibold shadow-sm">Alteración aguda del nivel de conciencia</li>
+                    <li class="p-3 bg-white rounded-lg font-semibold shadow-sm">Dificultad respiratoria súbita (Disnea)</li>
+                    <li class="p-3 bg-white rounded-lg font-semibold shadow-sm">Dolor torácico de inicio agudo</li>
+                    <li class="p-3 bg-white rounded-lg font-semibold shadow-sm">Déficit neurológico focal (p. ej., debilidad facial)</li>
+                </ul>
+            </section>
+
+        </main>
+
+        <footer class="mt-12">
+            <details class="card p-4">
+                <summary class="font-semibold text-lg cursor-pointer text-gray-700">Referencias Bibliográficas (Formato APA 7ª ed.)</summary>
+                <div class="mt-4 border-t pt-4 text-sm text-gray-600 space-y-3">
+                    <p>American Heart Association. (2020). Aspectos destacados de las guías de la AHA para RCP y ACE de 2020. <a href="https://cpr.heart.org/-/media/cpr-files/cpr-guidelines-files/highlights/hghlghts_2020_ecc_guidelines_spanish.pdf" class="text-blue-600 hover:underline" target="_blank">https://cpr.heart.org/</a></p>
+                    <p>Colwell, C. B. (2023). Initial management of seizure in adults. In T. W. Post (Ed.), <em>UpToDate</em>. Retrieved October 5, 2025, from <a href="https://www.uptodate.com" class="text-blue-600 hover:underline" target="_blank">https://www.uptodate.com</a></p>
+                    <p>Dezfulian, C., & Lavonas, E. J. (2020). Adult basic and advanced life support. In M. G. Shlipak (Ed.), <em>Lange Medical Reviews</em>. McGraw-Hill.</p>
+                    <p>Kontos, M. C. (2021). Acute coronary syndrome. <em>New England Journal of Medicine, 385</em>(2), 149-160. DOI: 10.1056/NEJMra2000247</p>
+                    <p>Powers, W. J., Rabinstein, A. A., Ackerson, T., Adeoye, O. M., Bambakidis, N. C., Becker, K., ... & Jauch, E. C. (2019). Guidelines for the early management of patients with acute ischemic stroke: 2019 update to the 2018 guidelines for the early management of acute ischemic stroke. <em>Stroke, 50</em>(12), e344-e418. DOI: 10.1161/STR.0000000000000211</p>
+                    <p>Sea, I., & Cryer, P. E. (2022). Hypoglycemia in adults without diabetes mellitus: Diagnostic approach. In D. M. Nathan (Ed.), <em>UpToDate</em>. Retrieved October 5, 2025, from <a href="https://www.uptodate.com" class="text-blue-600 hover:underline" target="_blank">https://www.uptodate.com</a></p>
+                    <p>Whelton, P. K., Carey, R. M., Aronow, W. S., Casey, D. E., Collins, K. J., Himmelfarb, C. D., ... & Wright, J. T. (2018). 2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA guideline for the prevention, detection, evaluation, and management of high blood pressure in adults. <em>Journal of the American College of Cardiology, 71</em>(19), e127-e248. DOI: 10.1016/j.jacc.2017.11.006</p>
+                </div>
+            </details>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pathologyData = {
+        'sca': {
+            title: 'Síndrome Coronario Agudo (SCA)',
+            icon: '❤️',
+            tagline: 'Tiempo es músculo. Cada minuto cuenta.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Síntomas Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Dolor torácico opresivo:</strong> Típicamente retroesternal, puede irradiarse a brazo izquierdo, mandíbula o espalda.</li>
+                        <li><strong>Disnea:</strong> Dificultad para respirar, a menudo súbita.</li>
+                        <li><strong>Diaforesis:</strong> Sudoración fría y profusa.</li>
+                        <li><strong>Náuseas y vómitos:</strong> Especialmente en infartos de cara inferior.</li>
+                        <li><strong>Presentaciones atípicas (mujeres, ancianos, diabéticos):</strong> Fatiga, debilidad, dolor epigástrico o ausencia de dolor.</li>
+                    </ul>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Activar el sistema de emergencias médicas (SEM) inmediatamente.</strong></li>
+                        <li>Colocar al paciente en una posición cómoda (semi-sentado).</li>
+                        <li>Aflojar ropa ajustada.</li>
+                        <li>Administrar oxígeno suplementario solo si la saturación de O₂ es &lt;94%.</li>
+                        <li>Preguntar por el tiempo de inicio de los síntomas, es crucial para la terapia de reperfusión.</li>
+                        <li>Tener un DEA (Desfibrilador Externo Automático) cerca si está disponible.</li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No permitir que el paciente se mueva o realice esfuerzos.</li>
+                        <li>No administrar alimentos ni líquidos por vía oral.</li>
+                        <li>No retrasar la llamada al SEM para "esperar a que se pase".</li>
+                        <li>No administrar medicamentos sin indicación médica (excepto aspirina si el protocolo local lo permite y no hay contraindicaciones).</li>
+                    </ul>`
+            }
+        },
+        'acv': {
+            title: 'Accidente Cerebrovascular (ACV/Ictus)',
+            icon: '🧠',
+            tagline: 'Tiempo es cerebro. Actúa RÁPIDO.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Detección Rápida con FAST (RÁPIDO)</h4>
+                    <div class="space-y-3 mt-4">
+                        <div class="p-4 fast-item rounded-lg">
+                            <p><strong class="text-2xl text-blue-700">F (Face/Rostro):</strong> Pida a la persona que sonría. ¿Un lado del rostro está caído?</p>
+                        </div>
+                        <div class="p-4 fast-item rounded-lg">
+                            <p><strong class="text-2xl text-blue-700">A (Arms/Brazos):</strong> Pida que levante ambos brazos. ¿Uno de ellos se desvía hacia abajo?</p>
+                        </div>
+                        <div class="p-4 fast-item rounded-lg">
+                            <p><strong class="text-2xl text-blue-700">S (Speech/Habla):</strong> Pida que repita una frase simple. ¿Arrastra las palabras o habla de forma extraña?</p>
+                        </div>
+                        <div class="p-4 fast-item rounded-lg">
+                            <p><strong class="text-2xl text-blue-700">T (Time/Tiempo):</strong> Si observa cualquiera de estos signos, llame a emergencias inmediatamente.</p>
+                        </div>
+                    </div>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Activar el código ictus o llamar al SEM inmediatamente.</strong> Anotar la hora exacta del inicio de los síntomas.</li>
+                        <li>Colocar al paciente en una posición cómoda, preferiblemente de lado si hay alteración de conciencia para proteger la vía aérea.</li>
+                        <li>No dar nada por boca (riesgo de aspiración).</li>
+                        <li>Asegurar un entorno tranquilo y seguro.</li>
+                        <li>Si es posible, tomar una glucemia capilar, ya que la hipoglucemia puede simular un ACV.</li>
+                    </ol>`,
+                no_hacer: `
+                     <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No administrar aspirina ni ningún otro medicamento.</li>
+                        <li>No dar líquidos ni comida.</li>
+                        <li>No esperar a ver si los síntomas mejoran por sí solos.</li>
+                    </ul>`
+            }
+        },
+        'hipoglucemia': {
+            title: 'Hipoglucemia',
+            icon: '🍬',
+            tagline: 'Una emergencia metabólica simple de resolver.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Síntomas Neuroglucopénicos y Autonómicos</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Autonómicos (alarma):</strong> Temblores, sudoración, taquicardia, ansiedad, hambre.</li>
+                        <li><strong>Neuroglucopénicos (severidad):</strong> Confusión, visión borrosa, dificultad para hablar, somnolencia, convulsiones, coma.</li>
+                        <li>Nivel de glucemia capilar generalmente &lt;70 mg/dL.</li>
+                    </ul>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Si el paciente está consciente y puede tragar:</strong> aplicar la "Regla del 15".
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Administrar 15g de carbohidratos de acción rápida (ej: medio vaso de zumo, 3-4 tabletas de glucosa).</li>
+                                <li>Esperar 15 minutos.</li>
+                                <li>Reevaluar la glucemia. Si persiste baja, repetir.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Si el paciente está inconsciente o no puede tragar:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Colocar en posición lateral de seguridad.</li>
+                                <li>No administrar nada por boca.</li>
+                                <li><strong>Activar el SEM inmediatamente.</strong></li>
+                            </ul>
+                        </li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No administrar insulina.</li>
+                        <li>No forzar líquidos o alimentos en una persona con alteración de conciencia.</li>
+                        <li>No dar carbohidratos complejos (pan, galletas) como primera opción, ya que tardan más en absorberse.</li>
+                    </ul>`
+            }
+        },
+        'hipertension': {
+            title: 'Crisis Hipertensiva',
+            icon: '🌡️',
+            tagline: 'No toda tensión alta es una emergencia.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Diferenciar Urgencia de Emergencia</h4>
+                    <p class="mb-2">La clave es la presencia de <strong>daño a órgano diana</strong>, no solo el valor de la Tensión Arterial (TA > 180/120 mmHg).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Signos de EMERGENCIA (activar SEM):</strong>
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Cefalea intensa y súbita.</li>
+                                <li>Alteraciones visuales (visión borrosa).</li>
+                                <li>Dolor torácico (posible disección aórtica o SCA).</li>
+                                <li>Déficit neurológico (similar a un ACV).</li>
+                                <li>Disnea (posible edema agudo de pulmón).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Signos de URGENCIA (sin daño agudo):</strong> El paciente puede estar asintomático o con cefalea leve. Requiere ajuste de medicación, pero no una intervención de emergencia inmediata.</li>
+                    </ul>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Mantener la calma y tranquilizar al paciente.</li>
+                        <li>Colocar al paciente en una posición cómoda, sentado o semi-sentado.</li>
+                        <li>Reevaluar la TA en 5-10 minutos.</li>
+                        <li><strong>Si hay signos de emergencia hipertensiva, activar el SEM inmediatamente.</strong></li>
+                        <li>Si es una urgencia sin síntomas graves, contactar con su médico tratante para ajuste de tratamiento.</li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No intentar bajar la tensión arterial bruscamente con medicamentos (riesgo de hipoperfusión cerebral o coronaria).</li>
+                        <li>No ignorar los síntomas de daño a órgano diana.</li>
+                    </ul>`
+            }
+        },
+        'anafilaxia': {
+            title: 'Anafilaxia',
+            icon: '🐝',
+            tagline: 'Reacción alérgica grave y potencialmente mortal.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Reconocimiento Rápido</h4>
+                     <p class="mb-2">Afecta a múltiples sistemas, con inicio rápido tras la exposición a un alérgeno.</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Piel:</strong> Urticaria generalizada, enrojecimiento, picor, hinchazón de labios/cara (angioedema).</li>
+                        <li><strong>Respiratorio:</strong> Dificultad para respirar, sibilancias, estridor, tos, sensación de garganta cerrada.</li>
+                        <li><strong>Cardiovascular:</strong> Mareo, hipotensión, taquicardia, pérdida de conciencia.</li>
+                        <li><strong>Gastrointestinal:</strong> Dolor abdominal, vómitos, diarrea.</li>
+                    </ul>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                         <li><strong>Activar el SEM inmediatamente.</strong></li>
+                        <li>Si el paciente tiene un autoinyector de <strong>adrenalina (epinefrina)</strong>, ayudarle a administrarlo en la cara anterolateral del muslo.</li>
+                        <li>Colocar al paciente tumbado con las piernas elevadas para contrarrestar la hipotensión (si no tiene dificultad respiratoria).</li>
+                         <li>Si hay dificultad respiratoria, mantenerlo sentado.</li>
+                        <li>Monitorizar la vía aérea y la respiración constantemente.</li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No retrasar la administración de adrenalina si está indicada y disponible.</li>
+                        <li>No dar antihistamínicos orales como único tratamiento; no son suficientes para una reacción grave.</li>
+                        <li>No dejar solo al paciente.</li>
+                    </ul>`
+            }
+        },
+        'convulsion': {
+            title: 'Crisis Convulsiva',
+            icon: '⚡',
+            tagline: 'La seguridad del paciente es la prioridad.',
+            content: {
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Tipos y Fases</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Convulsión tónico-clónica (generalizada):</strong> Pérdida de conciencia, rigidez corporal (fase tónica) seguida de sacudidas rítmicas de las extremidades (fase clónica).</li>
+                        <li>Puede haber mordedura de lengua, incontinencia urinaria y cianosis.</li>
+                        <li><strong>Periodo postictal:</strong> Fase de recuperación tras la convulsión, donde el paciente puede estar somnoliento, confuso o agitado.</li>
+                    </ul>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata (Durante la crisis)</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Mantener la calma y cronometrar la duración de la convulsión.</li>
+                        <li>Proteger al paciente de lesiones: retirar objetos cercanos, colocar algo blando bajo su cabeza.</li>
+                        <li>Aflojar la ropa ajustada alrededor del cuello.</li>
+                        <li>Colocar al paciente de lado (posición de recuperación) para mantener la vía aérea permeable, especialmente al finalizar los movimientos.</li>
+                        <li><strong>Activar el SEM si:</strong> dura más de 5 minutos, se repite, hay dificultad para respirar, ocurre en el agua o la persona está herida o embarazada.</li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No intentar sujetar a la persona o restringir sus movimientos.</li>
+                        <li><strong>No introducir ningún objeto en la boca.</strong> Es un mito y puede causar lesiones graves.</li>
+                        <li>No administrar alimentos, agua o medicamentos por vía oral hasta que la persona esté completamente despierta y alerta.</li>
+                    </ul>`
+            }
+        },
+    };
+
+    const grid = document.getElementById('pathology-grid');
+    const contentDisplay = document.getElementById('content-display');
+    let activeCard = null;
+    let currentPathologyKey = null;
+    const pathologyKeys = Object.keys(pathologyData);
+
+    Object.keys(pathologyData).forEach(key => {
+        const pathology = pathologyData[key];
+        const card = document.createElement('div');
+        card.className = 'card p-6 flex flex-col items-center text-center cursor-pointer';
+        card.dataset.pathology = key;
+        card.innerHTML = `
+            <div class="text-5xl mb-3">${pathology.icon}</div>
+            <h3 class="text-xl font-semibold text-gray-800">${pathology.title}</h3>
+        `;
+        grid.appendChild(card);
+
+        card.addEventListener('click', () => displayContent(key));
+    });
+
+    function displayContent(key) {
+        if (!key || !pathologyData[key]) return;
+
+        currentPathologyKey = key;
+        const pathology = pathologyData[key];
+        
+        if (activeCard) {
+            activeCard.classList.remove('active');
+        }
+        const newActiveCard = grid.querySelector(`[data-pathology="${key}"]`);
+        if (newActiveCard) {
+            newActiveCard.classList.add('active');
+            activeCard = newActiveCard;
+        }
+
+        contentDisplay.innerHTML = `
+            <div class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+                 <div class="text-5xl">${pathology.icon}</div>
+                 <div>
+                    <h2 class="text-3xl font-bold text-gray-800">${pathology.title}</h2>
+                    <p class="text-lg text-blue-600 font-medium">${pathology.tagline}</p>
+                 </div>
+            </div>
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-4" aria-label="Tabs">
+                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600 active" data-tab="sintomas">Síntomas</button>
+                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600" data-tab="accion">Acción Inmediata</button>
+                    <button class="tab-button py-3 px-1 text-md font-medium text-gray-500 hover:text-blue-600" data-tab="no_hacer">Qué NO Hacer</button>
+                </nav>
+            </div>
+            <div>
+                <div id="content-sintomas" class="content-section active">${pathology.content.sintomas}</div>
+                <div id="content-accion" class="content-section">${pathology.content.accion}</div>
+                <div id="content-no_hacer" class="content-section">${pathology.content.no_hacer}</div>
+            </div>
+        `;
+
+        contentDisplay.classList.remove('hidden');
+        contentDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const tabButtons = contentDisplay.querySelectorAll('.tab-button');
+        const contentSections = contentDisplay.querySelectorAll('.content-section');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                contentSections.forEach(section => section.classList.remove('active'));
+                const activeSection = contentDisplay.querySelector(`#content-${button.dataset.tab}`);
+                if (activeSection) {
+                    activeSection.classList.add('active');
+                }
+            });
+        });
+    }
+
+    function navigate(direction) {
+        let currentIndex = pathologyKeys.indexOf(currentPathologyKey);
+
+        if (currentIndex === -1) {
+            currentIndex = direction === 1 ? -1 : 0;
+        }
+
+        let nextIndex = currentIndex + direction;
+
+        if (nextIndex >= pathologyKeys.length) {
+            nextIndex = 0; // Wrap around to the start
+        } else if (nextIndex < 0) {
+            nextIndex = pathologyKeys.length - 1; // Wrap around to the end
+        }
+        
+        displayContent(pathologyKeys[nextIndex]);
+    }
+
+    function goToMenu() {
+        contentDisplay.classList.add('hidden');
+        if(activeCard) {
+            activeCard.classList.remove('active');
+            activeCard = null;
+        }
+        currentPathologyKey = null;
+        const dashboard = document.getElementById('dashboard');
+        dashboard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        switch (event.key) {
+            case 'ArrowRight':
+                navigate(1);
+                break;
+            case 'ArrowLeft':
+                navigate(-1);
+                break;
+            case 'm':
+            case 'M':
+                goToMenu();
+                break;
+        }
+    });
+});
+</script>
+</body>
+</html>
+
