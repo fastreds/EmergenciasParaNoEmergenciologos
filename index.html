@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 no_hacer: `
                     <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
                     <ul class="list-disc list-inside space-y-2">
-                        <li>No mover a la víctima a menos que exista un peligro inminente.</li>
+                        <li>No mover al paciente a menos que exista un peligro inminente.</li>
                         <li>No dar nada de comer ni de beber.</li>
-                        <li>No abandonar a la víctima sola.</li>
+                        <li>No dejar al paciente solo.</li>
                         <li>No retirar objetos clavados; inmovilizarlos.</li>
                     </ul>`
             }
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <ol class="list-decimal list-inside space-y-2">
                         <li><strong>Si el paciente está consciente y puede tragar:</strong> aplicar la "Regla del 15".
                             <ul class="list-disc list-inside ml-6 mt-1">
-                                <li>Administrar 15g de carbohidratos de acción rápida (ej: medio vaso de zumo, 3-4 tabletas de glucosa).</li>
+                                <li>Administrar 15g de carbohidratos de acción rápida (ej: medio vaso de jugo de naranja).</li>
                                 <li>Esperar 15 minutos.</li>
                                 <li>Reevaluar la glucemia. Si persiste baja, repetir.</li>
                             </ul>
@@ -429,8 +429,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <ol class="list-decimal list-inside space-y-2">
                          <li><strong>Activar el SEM inmediatamente.</strong></li>
                         <li>Si el paciente tiene un autoinyector de <strong>adrenalina (epinefrina)</strong>, ayudarle a administrarlo en la cara anterolateral del muslo.</li>
-                        <li>Colocar al paciente tumbado con las piernas elevadas para contrarrestar la hipotensión (si no tiene dificultad respiratoria).</li>
-                         <li>Si hay dificultad respiratoria, mantenerlo sentado.</li>
+                        <li>Si no cuentan con un autoinyector de <strong>adrenalina (epinefrina)</strong>, administrar <strong>0.5 mg de adrenalina</strong> en adultos en la cara anterolateral del muslo.</li>
+                        <li>Colocar al paciente acostado en el suelo para contrarrestar la hipotensión (si no tiene dificultad respiratoria).</li>
+                         <li>Si hay dificultad respiratoria, mantenerlo sentado, evitando que se vaya a caer.</li>
                         <li>Monitorizar la vía aérea y la respiración constantemente.</li>
                     </ol>`,
                 no_hacer: `
@@ -438,7 +439,71 @@ document.addEventListener('DOMContentLoaded', function () {
                     <ul class="list-disc list-inside space-y-2">
                         <li>No retrasar la administración de adrenalina si está indicada y disponible.</li>
                         <li>No dar antihistamínicos orales como único tratamiento; no son suficientes para una reacción grave.</li>
-                        <li>no dejar al paciente sola</li>
+                        <li>No dejar al paciente solo</li>
+                    </ul>`
+            }
+        },'ovace': {
+            title: 'Obstrucción de Vía Aérea (OVACE)',
+            icon: '🥨',
+            tagline: 'Maniobras que salvan vidas.',
+            content: {
+                definicion: `
+                    <h4 class="font-semibold text-lg mb-2">Definición</h4>
+                    <p class="mb-3">Es el bloqueo de la vía aérea superior por un cuerpo extraño (generalmente comida), que impide el paso del aire a los pulmones. Puede ser <strong>leve (parcial)</strong> o <strong>grave (completa)</strong>.</p>
+                    <h4 class="font-semibold text-lg mb-2">Parámetros Clave</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Señal universal de asfixia:</strong> La víctima se lleva ambas manos al cuello.</li>
+                        <li><strong>Tos efectiva vs. inefectiva:</strong> Es el principal diferenciador entre obstrucción leve y grave.</li>
+                        <li><strong>Pérdida de conciencia:</strong> Transforma el manejo e indica la necesidad inmediata de RCP.</li>
+                    </ul>`,
+                sintomas: `
+                    <h4 class="font-semibold text-lg mb-2">Reconocimiento de la Gravedad</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-bold text-lg text-green-700 mb-2">Obstrucción Leve (Parcial)</h5>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>La víctima puede hablar o hacer ruidos.</li>
+                                <li>Puede toser con fuerza.</li>
+                                <li>Puede respirar.</li>
+                                <li>La piel puede estar enrojecida.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg text-red-700 mb-2">Obstrucción Grave (Completa)</h5>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Incapacidad para hablar, toser o respirar.</li>
+                                <li>Tos débil o silenciosa.</li>
+                                <li>Ruidos agudos al intentar respirar o ningún ruido.</li>
+                                <li>Cianosis (color azulado en labios y piel).</li>
+                            </ul>
+                        </div>
+                    </div>`,
+                accion: `
+                    <h4 class="font-semibold text-lg mb-2">Acción Inmediata</h4>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Si la obstrucción es leve:</strong> Animar a la víctima a seguir tosiendo con fuerza. No intervenir más allá de la vigilancia.</li>
+                        <li><strong>Si la obstrucción es grave y la víctima está CONSCIENTE:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Párese detrás de la víctima y dé hasta <strong>5 golpes en la espalda</strong> entre los omóplatos.</li>
+                                <li>Si no funciona, realice hasta <strong>5 compresiones abdominales (Maniobra de Heimlich)</strong>.</li>
+                                <li>Alterne 5 golpes en la espalda y 5 compresiones abdominales hasta que el objeto sea expulsado o la víctima pierda el conocimiento.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Si la víctima queda INCONSCIENTE:</strong>
+                             <ul class="list-disc list-inside ml-6 mt-1">
+                                <li>Colóquela con cuidado en el suelo.</li>
+                                <li><strong>Active inmediatamente el SEM.</strong></li>
+                                <li><strong>Inicie RCP</strong>, comenzando con 30 compresiones torácicas.</li>
+                                <li>Antes de dar las 2 ventilaciones, abra la boca y busque el objeto. Si lo ve, intente retirarlo.</li>
+                            </ul>
+                        </li>
+                    </ol>`,
+                no_hacer: `
+                    <h4 class="font-semibold text-lg mb-2">Qué NO Hacer</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>No realizar compresiones abdominales si la persona tiene una obstrucción leve (está tosiendo con fuerza).</li>
+                        <li>No realizar un barrido digital a ciegas en la boca, podría empujar el objeto más adentro.</li>
+                        <li>No abandonar a la víctima.</li>
                     </ul>`
             }
         },
@@ -461,12 +526,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     <ul class="list-disc list-inside space-y-2">
                         <li><strong>Convulsión tónico-clónica (generalizada):</strong> Pérdida de conciencia, rigidez corporal (fase tónica) seguida de sacudidas rítmicas de las extremidades (fase clónica).</li>
                         <li>Puede haber mordedura de lengua, incontinencia urinaria y cianosis.</li>
-                        <li><strong>Periodo postictal:</strong> Fase de recuperación tras la convulsión, donde el paciente puede estar somnoliento, confuso o agitado.</li>
+                        <li><strong>Periodo postictal:</strong> Fase de recuperación tras la convulsión, donde el paciente puede estar somnoliento, confundido o agitado.</li>
                     </ul>`,
                 accion: `
                     <h4 class="font-semibold text-lg mb-2">Acción Inmediata (Durante la crisis)</h4>
                     <ol class="list-decimal list-inside space-y-2">
-                        <li>Mantener la calma y cronometrar la duración de la convulsión.</li>
+                        <li>Mantener la calma y registrar la duración de la convulsión.</li>
                         <li>Proteger al paciente de lesiones: retirar objetos cercanos, colocar algo blando bajo su cabeza.</li>
                         <li>Aflojar la ropa ajustada alrededor del cuello.</li>
                         <li>Colocar al paciente de lado (posición de recuperación) para mantener la vía aérea permeable, especialmente al finalizar los movimientos.</li>
@@ -653,4 +718,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
